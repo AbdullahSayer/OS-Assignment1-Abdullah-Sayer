@@ -147,29 +147,37 @@ I learned that a fork creates my own copy of the instructor's repository, while 
 i think an hour or an hour and a half iam not sure
 ---
 
-### Entry 2 - [Date and Time]
-**What I did**:
+### Entry 2 - [9 october and 6:30-7:40 PM]
+**What I did**:Reviewed and understood the important parts of the original scheduling simulation code.
 
-**Details**:
 
-**Challenges**:
+**Details**:I studied the main parts of SchedulerSimulation.java before making any new changes. I focused on the Process class, burst time, remaining time, time quantum, the ready queue, and how Round Robin scheduling works in the program. I also understood how Thread.start(), Thread.join(), and Thread.sleep() are used in the simulation. I reviewed how processes are removed from the queue, executed for one quantum, and returned to the end of the queue if they are not finished.
 
-**Solution**:
 
-**Time spent**:
+**Challenges**:The code was long and contained many output formatting and color lines, which made it difficult at first to identify the important scheduling logic.
+
+
+**Solution**:I separated the important scheduling code from the formatting code and focused only on the parts related to processes, threads, the ready queue, and Round Robin scheduling.
+
+
+**Time spent**:1 hour 10 minutes
 
 ---
 
-### Entry 3 - [Date and Time]
-**What I did**:
+### Entry 3 - [10 October and 2:42 AM to 4:00 AM]
+**What I did**:Tested my personalized simulation and implemented the Process Priority feature.
 
-**Details**:
 
-**Challenges**:
+**Details**:I updated the program with my student ID and successfully tested the original simulation using my own generated values. I then implemented the Process Priority feature by adding a priority value to each process. The priority is randomly generated from 1 to 10 and is stored inside the Process object. I added a getter method for the priority and updated the ready queue output so that the priority is displayed when a process enters the queue. I kept the scheduling order as FIFO, so the priority is only displayed and does not change the Round Robin scheduling order. After testing the feature successfully, I created a separate Git commit for it.
 
-**Solution**:
 
-**Time spent**:
+**Challenges**:At first, the priority value did not appear in the output because I accidentally placed the printing code inside the section used for the last process instead of inside the method that adds processes to the ready queue. I also had some issues with running an older compiled version of the Java file.
+
+
+**Solution**:I located the correct addProcessToQueue() method and moved the priority output to the correct location. I recompiled the Java file and tested the program again. The priorities were then displayed correctly for all processes, and each process kept the same priority when it returned to the ready queue.
+
+
+**Time spent**:1 hour 18 minutes
 
 ---
 

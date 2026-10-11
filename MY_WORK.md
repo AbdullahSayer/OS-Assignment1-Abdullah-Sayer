@@ -29,11 +29,11 @@
 
 | Field | Your Answer |
 |-------|-------------|
-| **Full Name** | [Write your full name here] |
-| **Student ID** | [Write your student ID here] |
-| **University Email** | [yourid]@std.psau.edu.sa |
-| **GitHub Username** | [your-github-username] |
-| **Repository Link** | [Paste your repository link here] |
+| **Full Name** | [Abdullah Sayer AlMutairi] |
+| **Student ID** | [445350082] |
+| **University Email** | [445350082]@std.psau.edu.sa |
+| **GitHub Username** | [AbdullahSayer] |
+| **Repository Link** | [https://github.com/AbdullahSayer/OS-Assignment1-Abdullah-Sayer.git] |
  
 ---
 
@@ -129,56 +129,84 @@
 
 ## Your Development Log
 
-### Entry 1 - [30 September , 2026 ,10:30 Pm]
+### Entry 1 - [30 September 2026, 10:30 PM]
+
 **What I did**:
-Set up the starter project and prepared my development environment.
+
+Prepared the project and my development environment.
 
 **Details**:
-First of all i have account in Github and i just change my personal email to unversity email
-then I forked the instructor's starter repository to my GitHub account and renamed my repository to OS-Assignment1-Abdullah-Sayer.after that I confirmed that the repository is public cloned it to my computer and opened it in Visual Studio Code. I installed the Java Extension Pack and opened SchedulerSimulation.java I also checked the Git remote connection using git remote -v and updated the origin URL so that my local project points to my renamed GitHub repository.
+
+I already had a GitHub account, so I changed my personal email to my university email. Then I forked the starter repository from the instructor and renamed it to OS-Assignment1-Abdullah-Sayer.
+
+After that, I checked that the repository was public and cloned it to my computer. I opened the project in Visual Studio Code and installed the Java Extension Pack. I also opened SchedulerSimulation.java and checked the Git connection using git remote -v.
 
 **Challenges**:
-At first, I was not sure about the difference between forking the repository, cloning it, and editing the files directly on GitHub. I also noticed that the local project still had the old starter repository name, so I wanted to make sure that it was connected to my own GitHub repository before making any changes.
+
+At first I was confused about the difference between fork and clone. I also noticed that the folder on my computer still had the old repository name, so I was not sure if it was connected to my GitHub repository correctly.
 
 **Solution**:
-I learned that a fork creates my own copy of the instructor's repository, while cloning downloads my repository to my computer. I verified the connection using git remote -v and changed the origin URL to my renamed repository. I also installed the required Java tools in Visual Studio Code so that the project is ready for development.
+
+I understood that fork makes a copy of the instructor repository in my GitHub account, while clone downloads my repository to my computer. I checked the remote link using git remote -v and made sure the project was connected correctly.
 
 **Time spent**:
-i think an hour or an hour and a half iam not sure
----
 
-### Entry 2 - [9 october and 6:30-7:40 PM]
-**What I did**:Reviewed and understood the important parts of the original scheduling simulation code.
-
-
-**Details**:I studied the main parts of SchedulerSimulation.java before making any new changes. I focused on the Process class, burst time, remaining time, time quantum, the ready queue, and how Round Robin scheduling works in the program. I also understood how Thread.start(), Thread.join(), and Thread.sleep() are used in the simulation. I reviewed how processes are removed from the queue, executed for one quantum, and returned to the end of the queue if they are not finished.
-
-
-**Challenges**:The code was long and contained many output formatting and color lines, which made it difficult at first to identify the important scheduling logic.
-
-
-**Solution**:I separated the important scheduling code from the formatting code and focused only on the parts related to processes, threads, the ready queue, and Round Robin scheduling.
-
-
-**Time spent**:1 hour 10 minutes
+Around 1 to 1.5 hours. I am not exactly sure.
 
 ---
 
-### Entry 3 - [10 October and 2:42 AM to 4:00 AM]
-**What I did**:Tested my personalized simulation and implemented the Process Priority feature.
+### Entry 2 - [9 October 2026, 6:30 PM to 7:40 PM]
 
+**What I did**:
 
-**Details**:I updated the program with my student ID and successfully tested the original simulation using my own generated values. I then implemented the Process Priority feature by adding a priority value to each process. The priority is randomly generated from 1 to 10 and is stored inside the Process object. I added a getter method for the priority and updated the ready queue output so that the priority is displayed when a process enters the queue. I kept the scheduling order as FIFO, so the priority is only displayed and does not change the Round Robin scheduling order. After testing the feature successfully, I created a separate Git commit for it.
+Tried to understand the important parts of the original code.
 
+**Details**:
 
-**Challenges**:At first, the priority value did not appear in the output because I accidentally placed the printing code inside the section used for the last process instead of inside the method that adds processes to the ready queue. I also had some issues with running an older compiled version of the Java file.
+I read SchedulerSimulation.java and focused on the parts that are important for the assignment. I understood the Process class and the difference between burst time, remaining time and time quantum.
 
+I also understood the ready queue and how Round Robin works in this program. I learned what Thread.start(), Thread.join() and Thread.sleep() are doing in the simulation.
 
-**Solution**:I located the correct addProcessToQueue() method and moved the priority output to the correct location. I recompiled the Java file and tested the program again. The priorities were then displayed correctly for all processes, and each process kept the same priority when it returned to the ready queue.
+**Challenges**:
 
+The file was long and had many lines for colors and terminal output. At first it was hard for me to know which parts were important and which parts were only for the output design.
 
-**Time spent**:1 hour 18 minutes
+**Solution**:
 
+I focused on the scheduling parts and ignored most of the color and formatting code. This made the main idea of the program easier to understand.
+
+**Time spent**:
+
+1 hour 10 minutes.
+
+---
+
+### Entry 3 - [10 October 2026, 2:42 AM to 4:00 AM]
+
+**What I did**:
+
+Tested the program with my student ID and added the Process Priority feature.
+
+**Details**:
+First I changed the student ID in the program and tested the original code. The program generated my own number of processes and time quantum.
+
+Then I started the first feature. I added a priority variable to the Process class and generated a random priority from 1 to 10 for every process.
+
+I also added getPriority() and displayed the priority when the process enters the ready queue. I did not change the queue order because the priority is only for display and the queue should still work as FIFO.
+
+**Challenges**:
+
+The priority did not appear in the output at first. I found that I added the printing code in the wrong place. I put it inside the part for the last process instead of the method that adds the process to the ready queue.
+
+I also had a problem because Java was sometimes running an older compiled version of the file.
+
+**Solution**:
+
+I moved the priority output to addProcessToQueue() and compiled the program again. After that the priority appeared correctly for every process. I also checked that the same process keeps the same priority when it returns to the ready queue.
+
+**Time spent**:
+
+1 hour 18 minutes.
 ---
 
 ### Entry 4 - [Date and Time]

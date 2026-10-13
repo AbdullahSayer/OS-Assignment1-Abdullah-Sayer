@@ -205,33 +205,34 @@ I also had a problem because Java was sometimes running an older compiled versio
 I moved the priority output to addProcessToQueue() and compiled the program again. After that the priority appeared correctly for every process. I also checked that the same process keeps the same priority when it returns to the ready queue.
 
 **Time spent**:
-
 1 hour 18 minutes.
 ---
 
-### Entry 4 - [Date and Time]
-**What I did**:
+### Entry 4 - [11 October 2026 - 9;15 - 9;55]
 
-**Details**:
+**What I did**: Added the Context Switch Counter feature.
 
-**Challenges**:
+**Details**: I added a static variable to count how many times the scheduler starts a thread. I placed the counter before Thread.start() so it increases every time a process gets a turn to run. I also added a line at the end of the simulation to print the total number of context switches. After testing the program, the result was 39 context switches.
 
-**Solution**:
+**Challenges**: I needed to make sure the counter was placed in the correct part of the scheduler without changing how Round Robin works.
 
-**Time spent**:
+**Solution**: I placed the counter inside the scheduling loop, just before starting the thread. I ran the program and checked that the total was displayed at the end.
+
+**Time spent**: 40 minutes:
 
 ---
 
-### Entry 5 - [Date and Time]
-**What I did**:
+### Entry 5 - [13 October 2026 - 12;20-12;45]
 
-**Details**:
+**What I did**: Added Waiting Time Tracking and the final statistics table.
 
-**Challenges**:
+**Details**: I added variables and methods to calculate how long each process waits in the ready queue. I used System.currentTimeMillis() to record the time when a process enters and leaves the queue. I also created a list to keep all processes and used it to print the final statistics table. The table shows the process name, burst time, waiting time, and turnaround time.
 
-**Solution**:
+**Challenges**: I had a problem with the location of the final table in the code. At first, the table appeared before all processes finished. I also had a problem with the numbers appearing as strange characters in the terminal.
 
-**Time spent**:
+**Solution**: I moved the final table outside the scheduling loop and fixed the printing format. I compiled and ran the program again. This time, all 18 processes finished before the table appeared, and the numbers were displayed correctly. I also checked that the turnaround time was calculated correctly.
+
+**Time spent**: 25 minuets
 
 ---
 

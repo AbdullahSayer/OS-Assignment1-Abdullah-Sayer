@@ -3,6 +3,8 @@ import java.util.Queue;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.List;
+import java.util.ArrayList;
 
 // ANSI Color Codes for enhanced terminal output
 class Colors {
@@ -30,6 +32,8 @@ class Process implements Runnable {
     private int timeQuantum; // Time slice (time quantum) allowed per CPU access (in milliseconds)
     private int remainingTime; // Time left for the process to finish its execution
     private int priority;
+    private long waitingTime = 0;
+    private long readyQueueEntryTime; 
 
     // Constructor to initialize the process with name, burst time, and time quantum
     public Process(String name, int burstTime, int timeQuantum, int priority) {
@@ -126,7 +130,16 @@ class Process implements Runnable {
             System.out.println(Colors.RED + "  ✗ " + name + " was interrupted." + Colors.RESET);
         }
     }
+    public void markReadyQueueEntry() {
+    readyQueueEntryTime = System.currentTimeMillis();
+}
 
+    public void updateWaitingTime() {
+    waitingTime += System.currentTimeMillis() - readyQueueEntryTime;
+}
+
+     public long getWaitingTime() {
+    return waitingTime;}
     // Getter methods for process name, burst time, and remaining time
     public String getName() {
         return name;
@@ -171,7 +184,7 @@ public class SchedulerSimulation {
         
         // Map to associate each thread with its respective process object
         Map<Thread, Process> processMap = new HashMap<>();
-        
+        List<Process> allProcesses = new ArrayList<>();
         // Print simulation header with elegant formatting
         System.out.println("\n" + Colors.BOLD + Colors.BRIGHT_CYAN + 
                           "╔═══════════════════════════════════════════════════════════════════════════════════════╗" + 
@@ -206,7 +219,7 @@ public class SchedulerSimulation {
             int priority = 1 + random.nextInt(10);
             // Create a new process object with a unique name, burst time, and the defined time quantum
             Process process = new Process("P" + i, burstTime, timeQuantum,priority);
-            
+            allProcesses.add(process);
             // Add the process to the ready queue and the map
             addProcessToQueue(process, processQueue, processMap);
             
@@ -226,71 +239,129 @@ public class SchedulerSimulation {
         
         // Loop to manage the scheduling of processes
         while (!processQueue.isEmpty()) {
-            // Get the next thread from the queue (FIFO)
-            Thread currentThread = processQueue.poll(); // Dequeues the next thread
-            
-            // Print the current process queue (list of process IDs in the queue)
-            System.out.println(Colors.BOLD + Colors.MAGENTA + "┌─ Ready Queue " + "─".repeat(65) + Colors.RESET);
-            System.out.print(Colors.MAGENTA + "│ " + Colors.RESET + Colors.BRIGHT_WHITE + "[" + Colors.RESET);
-            int queueCount = 0;
-            for (Thread thread : processQueue) {
-                Process process = processMap.get(thread);
-                if (queueCount > 0) System.out.print(Colors.WHITE + " → " + Colors.RESET);
-                System.out.print(Colors.BRIGHT_CYAN + process.getName() + Colors.RESET);
-                queueCount++;
-            }
-            if (queueCount == 0) {
-                System.out.print(Colors.YELLOW + "empty" + Colors.RESET);
-            }
-            System.out.println(Colors.BRIGHT_WHITE + "]" + Colors.RESET);
-            System.out.println(Colors.BOLD + Colors.MAGENTA + "└" + "─".repeat(79) + Colors.RESET + "\n");
-            
-            // Start the thread, which will run the process for one time quantum
-            contextSwitchCount++;
-            currentThread.start();
-            
-            try {
-                // Wait for the thread to finish its time quantum before continuing to the next process
-                currentThread.join();
-            } catch (InterruptedException e) {
-                System.out.println("Main thread interrupted.");
-            }
-            
-            // Retrieve the process associated with the thread from the map
-            Process process = processMap.get(currentThread);
-            
-            // Check if the process is not finished
-            if (!process.isFinished()) {
-                // If the process still has remaining time, check if there are more processes in queue
-                if (!processQueue.isEmpty()) {
-                    // Re-enqueue the process to give it another chance to run in the next round
-                    addProcessToQueue(process, processQueue, processMap);
-                } else {
-    System.out.println(
-        Colors.BRIGHT_YELLOW + "  ⚠ " +
-        Colors.CYAN + process.getName() +
-        Colors.RESET + Colors.YELLOW +
-        " is the last process → running to completion" +
-        Colors.RESET
-    );
 
-    process.runToCompletion();
-                }
-            }
+    // Get the next thread from the queue (FIFO)
+    Thread currentThread = processQueue.poll();
+
+    processMap.get(currentThread).updateWaitingTime();
+
+    // Print the current process queue
+    System.out.println(Colors.BOLD + Colors.MAGENTA +
+                      "┌─ Ready Queue " + "─".repeat(65) + Colors.RESET);
+
+    System.out.print(Colors.MAGENTA + "│ " + Colors.RESET +
+                     Colors.BRIGHT_WHITE + "[" + Colors.RESET);
+
+    int queueCount = 0;
+
+    for (Thread thread : processQueue) {
+        Process process = processMap.get(thread);
+
+        if (queueCount > 0)
+            System.out.print(Colors.WHITE + " → " + Colors.RESET);
+
+        System.out.print(Colors.BRIGHT_CYAN +
+                         process.getName() + Colors.RESET);
+
+        queueCount++;
+    }
+
+    if (queueCount == 0) {
+        System.out.print(Colors.YELLOW + "empty" + Colors.RESET);
+    }
+
+    System.out.println(Colors.BRIGHT_WHITE + "]" + Colors.RESET);
+
+    System.out.println(Colors.BOLD + Colors.MAGENTA +
+                      "└" + "─".repeat(79) +
+                      Colors.RESET + "\n");
+
+    // Start the thread
+    contextSwitchCount++;
+
+    currentThread.start();
+
+    try {
+        currentThread.join();
+    } catch (InterruptedException e) {
+        System.out.println("Main thread interrupted.");
+    }
+
+    Process process = processMap.get(currentThread);
+
+    if (!process.isFinished()) {
+
+        if (!processQueue.isEmpty()) {
+
+            addProcessToQueue(
+                process,
+                processQueue,
+                processMap
+            );
+
+        } else {
+
+            System.out.println(
+                Colors.BRIGHT_YELLOW + "  ⚠ " +
+                Colors.CYAN + process.getName() +
+                Colors.RESET + Colors.YELLOW +
+                " is the last process → running to completion" +
+                Colors.RESET
+            );
+
+            process.runToCompletion();
         }
+    }
+
+} 
         
         // End of the scheduler simulation
-        System.out.println("Total Context Switches: " + contextSwitchCount);
-        System.out.println(Colors.BOLD + Colors.BRIGHT_GREEN + 
-                          "╔════════════════════════════════════════════════════════════════════════════════╗" + 
-                          Colors.RESET);
-        System.out.println(Colors.BOLD + Colors.BRIGHT_GREEN + "║" + Colors.RESET + 
-                          Colors.BG_GREEN + Colors.WHITE + Colors.BOLD + 
-                          "                     ✓  ALL PROCESSES COMPLETED  ✓                            " + 
-                          Colors.RESET + Colors.BOLD + Colors.BRIGHT_GREEN + "║" + Colors.RESET);
-        System.out.println(Colors.BOLD + Colors.BRIGHT_GREEN + 
-                          "╚════════════════════════════════════════════════════════════════════════════════╝" + 
-                          Colors.RESET + "\n");
+System.out.println(Colors.BOLD + Colors.BRIGHT_GREEN + 
+                  "╔════════════════════════════════════════════════════════════════════════════════╗" + 
+                  Colors.RESET);
+
+System.out.println(Colors.BOLD + Colors.BRIGHT_GREEN + "║" + Colors.RESET + 
+                  Colors.BG_GREEN + Colors.WHITE + Colors.BOLD + 
+                  "                     ✓  ALL PROCESSES COMPLETED  ✓                            " + 
+                  Colors.RESET + Colors.BOLD + Colors.BRIGHT_GREEN + "║" + Colors.RESET);
+
+System.out.println(Colors.BOLD + Colors.BRIGHT_GREEN + 
+                  "╚════════════════════════════════════════════════════════════════════════════════╝" + 
+                  Colors.RESET + "\n");
+
+
+// Final statistics table
+System.out.println("\nFinal Process Statistics:");
+
+System.out.printf(
+    java.util.Locale.US,
+    "%-12s %-15s %-15s %-18s%n",
+    "Process",
+    "Burst Time",
+    "Waiting Time",
+    "Turnaround Time"
+);
+
+for (Process process : allProcesses) {
+
+    long turnaroundTime =
+        process.getWaitingTime() + process.getBurstTime();
+
+    System.out.printf(
+        java.util.Locale.US,
+        "%-12s %-15d %-15d %-18d%n",
+        process.getName(),
+        process.getBurstTime(),
+        process.getWaitingTime(),
+        turnaroundTime
+    );
+}
+
+
+// Print total context switches
+System.out.println(
+    "Total Context Switches: " + contextSwitchCount
+);
     }
     
     // Method to add a process to the queue and map, while printing a "ready" message
@@ -298,7 +369,7 @@ public class SchedulerSimulation {
                                         Map<Thread, Process> processMap) {
         // Create a new thread to run the process
         Thread thread = new Thread(process);
-        
+        process.markReadyQueueEntry();
         // Add the thread to the ready queue
         processQueue.add(thread);
         

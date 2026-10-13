@@ -279,7 +279,7 @@ I moved the priority output to addProcessToQueue() and compiled the program agai
 
 **Your Answer:** *(5-7 sentences)*
 
-[Write your answer here.]
+[I learned that multithreading allows a program to create threads to perform different tasks. In this assignment, I learned how the Process class uses Runnable and how Thread.start() starts the execution. I also understood that Thread.join() makes the main thread wait until the current thread finishes. Thread.sleep() was used to simulate the execution time of each process. One thing that surprised me was that the threads did not run at the same time because the scheduler waits for each thread to finish. I also learned that a finished thread cannot be started again, so the program creates a new thread when a process returns to the ready queue.]
 
 ## Question 2: What was the most challenging part of this assignment?
 
@@ -287,7 +287,7 @@ I moved the priority output to addProcessToQueue() and compiled the program agai
 
 **Your Answer:** *(5-7 sentences)*
 
-[Write your answer here.]
+[The most challenging part of this assignment was implementing the waiting time feature. I had some difficulty placing the final statistics table in the correct part of the code. At first, the table appeared before all the processes finished running. I also made a mistake with the closing brackets, which caused errors in the program. It was confusing because the scheduler had several loops and conditions. I needed to understand where the scheduling loop ended before I could fix the problem.]
 
 ## Question 3: How did you overcome the challenges you faced?
 
@@ -295,7 +295,7 @@ I moved the priority output to addProcessToQueue() and compiled the program agai
 
 **Your Answer:** *(5-7 sentences)*
 
-[Write your answer here.]
+[First, I checked the program output to understand what was going wrong. I noticed that the final table appeared before the last process finished. I went back to the scheduler code and checked the opening and closing brackets. After that, I moved the statistics table outside the scheduling loop. I compiled and ran the program again, then checked that all 18 processes appeared in the table and that the calculations were correct. This taught me that testing the code after each small change makes finding errors easier.]
 
 ## Question 4: How can you apply multithreading concepts in real-world applications?
 
@@ -303,7 +303,7 @@ I moved the priority output to addProcessToQueue() and compiled the program agai
 
 **Your Answer:** *(5-7 sentences)*
 
-[Write your answer here.]
+[Multithreading is useful in many applications because it helps programs handle different tasks. For example, a web browser can load a page while the user continues using other tabs. A music player can continue playing music while the user changes the volume or selects another song. Mobile applications can also download data in the background without stopping the user interface. In my assignment, I learned how the scheduler manages the execution of different tasks and tracks their waiting time. This helped me understand why managing threads correctly is important for making applications work smoothly.]
 
 ### Optional: What would you like to learn more about?
 
@@ -333,9 +333,17 @@ I moved the priority output to addProcessToQueue() and compiled the program agai
 
 > 💡 **TIP:** Note that the class named `Process` in our code is a *simulated* process, and it is run by a real Java *thread*. Explain that distinction and point to the `new Thread(process)` line in `addProcessToQueue()`.
 
-**Your Answer:** *(3-5 sentences)*
+**Your Answer:** *(5-7 sentences)*
 
-[Write your answer here.]
+[A process is a running program that usually has its own memory space, while a thread is a smaller unit of execution inside a process.
+
+Threads can share memory with other threads in the same process, and creating a thread usually requires fewer resources than creating a separate process.
+
+In my assignment, the Process class represents a simulated process, not a real operating system process.
+
+The addProcessToQueue() method creates a real Java thread using new Thread(process).
+
+We used threads because they are easier to manage in this simulation and can access the same process data.]
 
 ## Question 2: Ready Queue Behavior
 
@@ -347,15 +355,38 @@ I moved the priority output to addProcessToQueue() and compiled the program agai
 
 **Your Answer:** *(3-5 sentences)*
 
-[Write your answer here.]
+[In my program, P1 had a burst time of 7484 ms, while the time quantum was 5000 ms.
+
+After P1 used its first quantum, it still had 2484 ms remaining.
+
+The scheduler added P1 back to the end of the ready queue one time.
+
+When P1 received another turn, it could finish its remaining execution time.
+
+This makes Round Robin fair because other processes can use the CPU instead of waiting for one process to finish all its work.
 
 Example from my output:
 ```
-[Paste a relevant snippet from your program output here showing a process being re-queued]
+[P1 executing quantum [5000ms]
+
+P1 completed quantum 5000ms
+
+Remaining time: 2484ms
+
+P1 yields CPU for context switch
+
+P1 added to ready queue
+Burst time: 7484ms]
 ```
 
 **Explanation of example:**
-[Explain what is happening in the output snippet you pasted.]
+[P1 needed 7484 ms to finish, but it could only run for 5000 ms in one turn.
+
+After the first turn, P1 still needed 2484 ms.
+
+The scheduler moved P1 to the end of the ready queue so other processes could run.
+
+P1 was re-queued once and finished during its next turn.]
 
 ## Question 3: Thread Lifecycle
 
@@ -365,15 +396,15 @@ Example from my output:
 
 **Your Answer:** *(3-5 sentences overall; one short explanation per state)*
 
-1. **New**: [When is P1 in the New state?]
+1. **New**: [When is P1 in the New state? P1's thread is in the New state when addProcessToQueue() creates it using new Thread(process).]
 
-2. **Runnable**: [When does P1 become Runnable?]
+2. **Runnable**: [When does P1 become Runnable? P1's thread becomes Runnable when the scheduler calls currentThread.start(), making it ready for execution.]
 
-3. **Running**: [When is P1 Running?]
+3. **Running**: [When is P1 Running?P1 is Running when Java gives its thread CPU time and the run() method starts executing.]
 
-4. **Waiting**: [When and why would a thread be Waiting?]
+4. **Waiting**: [When and why would a thread be Waiting?P1's thread enters a timed waiting state during Thread.sleep(), while the main thread waits for P1 to finish using currentThread.join().]
 
-5. **Terminated**: [When is P1 Terminated?]
+5. **Terminated**: [When is P1 Terminated?P1's thread becomes Terminated when its run() method finishes, and a new thread is created if the simulated process still needs more execution time.]
 
 ## Question 4: Real-World Applications
 
@@ -383,32 +414,49 @@ Example from my output:
 
 **Your Answer:** *(3-5 sentences per example)*
 
-### Example 1 (operating-system level): [Name of scenario]
+### Example 1 (operating-system level): [Operating System CPU Scheduling]
 
 **Description**:
-[Describe the real-world scenario.]
+[An operating system can use time slices to share CPU time between threads from different running programs.
+
+For example, a computer may have a web browser, a music player, and other applications running.
+
+Each runnable thread is similar to a process in my simulation, and the operating system gives it some CPU time.]
 
 **Why Round-Robin works well here**:
-[Fairness, responsiveness, predictability?]
+[Fairness, responsiveness, predictability?Round Robin is useful because it gives runnable tasks repeated chances to use the CPU.
 
-### Example 2: [Name of application/scenario]
+The time quantum limits how long a task can run before the scheduler may switch to another task.
+
+This improves fairness and helps applications remain responsive.]
+
+### Example 2: [Multiplayer Game Server]
 
 **Description**:
-[Describe the real-world scenario or application.]
+[A multiplayer game server can manage update tasks for several game rooms.
+
+Each room needs processing time to update players and game events.
+
+An application-level scheduler could give each room a short processing turn, similar to the time quantum in my simulation.]
 
 **Why Round-Robin works well here**:
-[Fairness, responsiveness, predictability?]
+[Fairness, responsiveness, predictability? Round Robin can help the server distribute processing time fairly between game rooms.
+
+If a room still has unfinished work, its task can return to the queue for another turn.
+
+This helps prevent one busy room from delaying updates for all the other rooms.]
 
 ## Summary
-
 **Key concepts I understood through these questions:**
-1.
-2.
-3.
+1. I understood the difference between a thread and a process.
+
+2. I learned how Round Robin uses a ready queue and a time quantum to give processes turns.
+
+3. I understood how Java threads are created, started, and terminated.
 
 **Concepts I need to study more:**
-1.
-2.
+1. Thread synchronization and how multiple threads safely share data.
+2. How real operating systems perform context switching.
 
 ---
 

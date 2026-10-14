@@ -39,7 +39,7 @@
 
 ## 🎥 Video Link
 
-**Video Link**: [Paste your video link here]
+**Video Link**: [[Paste your video link here](https://drive.google.com/file/d/1ru8O6denQQler78uWYXwB-l8Ehoywhuc/view?usp=sharing)]
 
 > ⚠️ **WARNING:** The video must be **publicly accessible** ("Anyone with the link can view") on **Google Drive**, **YouTube (Unlisted or Public)** or any other cloud file-sharing system. A private, restricted or broken link counts as a **missing video (-1 mark)**.
 >
@@ -236,16 +236,42 @@ I moved the priority output to addProcessToQueue() and compiled the program agai
 
 ---
 
-### Entry 6 - [Optional - Date and Time]
-**What I did**:
+### Entry 6 — [October 14, 2026-4:00-7:20]
 
-**Details**:
+**What I did:**
+Completed the final testing of my project, fixed the IDE execution issue, updated my GitHub repository, and recorded the assignment demonstration video.
 
-**Challenges**:
+**Details:**
+I initially had a problem running my Java program using the Run button in VS Code, although the program worked correctly from the terminal.
 
-**Solution**:
+I decided to try NetBeans as another IDE. I transferred the latest version of my Java code to NetBeans and successfully executed the simulation using the Run button.
 
-**Time spent**:
+After confirming that the program worked, I copied the updated Java file into my original assignment folder.
+
+I tested the simulation again and verified that all 18 processes completed successfully. The final statistics table displayed the Burst Time, Waiting Time, and Turnaround Time, and the Context Switch Counter showed 39.
+
+I then updated my existing GitHub repository and verified that the final commit only modified SchedulerSimulation.java.
+
+Finally, I recorded a 2-minute and 46-second demonstration video showing the three implemented features, IDE execution, a threading concept, and the Git commit history.
+
+**Challenges:**
+The main challenge was that VS Code could not execute the program using the Run button.
+
+After switching to NetBeans, I also encountered file naming problems because the Java extension was duplicated.
+
+Another problem was the package declaration, which caused an error when running the file from the original assignment folder.
+
+**Solution:**
+I used NetBeans to run and test the Java simulation successfully.
+
+I corrected the Java filename, removed the package declaration from the copy in the original assignment folder, and moved the backup file outside the project directory.
+
+After these changes, I compiled and executed the program successfully.
+
+I also checked the Git repository status and commit history to make sure the final code was uploaded without modifying the other assignment files.
+
+**Time spent:**
+[3 hours and half]
 
 ---
 
